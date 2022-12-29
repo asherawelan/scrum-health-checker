@@ -1,0 +1,66 @@
+{
+	"sections": [
+		{
+			"title": "Sprint Planning",
+			"questions": [
+				"Is it?",
+				"Should I?"
+			]
+		},
+		{
+			"title": "Daily Scrum",
+			"questions": [
+				"Is it?",
+				"Should I?"
+			]
+		},
+		{
+			"title": "Sprint Review",
+			"questions": [
+				"Is it?",
+				"Should I?"
+			]
+		},
+		{
+			"title": "Sprint Retrospective",
+			"questions": [
+				"Is it?",
+				"Should I?"
+			]
+		},
+		{
+			"title": "Product Owner",
+			"questions": [
+				"Is it?",
+				"Should I?"
+			]
+		},
+		{
+			"title": "Scrum Master",
+			"questions": [
+				"Is it?",
+				"Should I?"
+			]
+		},
+		{
+			"title": "Dev Team Skills",
+			"questions": [
+				"Is it?",
+				"Should I?"
+			]
+		},		{
+			"title": "Product Backlog: Refinement",
+			"questions": [
+				"Is it?",
+				"Should I?"
+			]
+		},
+		{
+			"title": "Sprint Backlog",
+			"questions": [
+				"Is it?",
+				"Should I?"
+			]
+		}
+	]
+}
