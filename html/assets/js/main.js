@@ -10,6 +10,13 @@ if (checkData(data, schema)) {
     new App(data).initialize();
 }
 
+/**
+ * Checks the json data loaded matches the schema
+ * required for the app to work as expected
+ * @param data
+ * @param schema
+ * @returns {boolean}
+ */
 function checkData(data, schema) {
     const validate = new ajv7().compile(schema);
 
