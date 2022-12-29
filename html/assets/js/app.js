@@ -3,13 +3,10 @@ let data = {};
 $(function () {
     $.getJSON('assets/json/data.json', function (data) {
 
-        if (!checkData(data)) {
-            return;
+        if (checkData(data)) {
+            const hc = new AgileScrumHealthCheck(data);
+            hc.initialize();
         }
-
-        const agileScrumHealthCheck = new AgileScrumHealthCheck(data);
-        agileScrumHealthCheck.initialize();
-
     });
 });
 
@@ -30,12 +27,16 @@ class AgileScrumHealthCheck {
         );
 
         accordion.find(':checkbox').on('change', function () {
-
+            let sectionIndex = this.closest('.section');
+            console.log(sectionIndex);
 
             //this.createJsonFromAccordion(accordion);
         });
 
-        accordion.find('.accordion-collapse:first').collapse();
+        accordion.find('.accordion-collapse')
+            .not('.template')
+            .collapse();
+
         accordion.find('.template').remove();
     }
 
@@ -43,13 +44,13 @@ class AgileScrumHealthCheck {
         const boundCreateAccordionItem = this.createAccordionItem.bind(this);
         const boundPopulateAccordionItem = this.populateAccordionItem.bind(this);
 
-        $(sections).each(function (id) {
+        $(sections).each(function (index) {
             let accordionItem = boundCreateAccordionItem(
-                id, this.title,
+                index, this.title,
                 accordion.find('.accordion-item.template')
             );
 
-            accordion.prepend(
+            accordion.append(
                 boundPopulateAccordionItem(
                     accordionItem, this.questions
                 )
@@ -60,15 +61,17 @@ class AgileScrumHealthCheck {
     }
 
     populateAccordionItem(accordionItem, questions) {
-        const boundCreateListItem = this.createListItem.bind(this);
+        const boundCreateListItemCheckBox = this.createListItemCheckBox.bind(this);
 
         $(questions).each(function (index) {
-            let listItem = boundCreateListItem(
-                `${accordionItem.attr('data-section-id')}-${index}`,
-                this.text, this.checked, accordionItem.find('li.template')
+            let listItem = boundCreateListItemCheckBox(
+                this.text, this.checked,
+                accordionItem.find('li.template')
             );
 
-            accordionItem.find('ul').prepend(listItem);
+            listItem.find(':checkbox').attr('data-index', index);
+
+            accordionItem.find('ul').append(listItem);
         });
 
         return accordionItem;
@@ -77,7 +80,7 @@ class AgileScrumHealthCheck {
     createAccordionItem(id, title, template) {
         let el = this.cloneFromTemplateElement(template);
 
-        el.attr('data-section-id', id);
+        el.attr('data-index', id);
 
         el.find('.accordion-header').attr('id', `accordion-item-${id}`);
         el.find('.accordion-collapse').attr({
@@ -93,11 +96,11 @@ class AgileScrumHealthCheck {
         return el;
     }
 
-    createListItem(id, label, checked, template) {
+    createListItemCheckBox(label, checked, template) {
         let el = this.cloneFromTemplateElement(template);
 
-        el.find('input').attr('id', `list-item-${id}`).prop('checked', checked);
-        el.find('label').attr('for', `list-item-${id}`).text(label);
+        el.find('input').prop('checked', checked);
+        el.find('label').text(label);
 
         return el;
     }
@@ -124,7 +127,7 @@ class AgileScrumHealthCheck {
         return data;
     }
 
-    renderChart(labels, data) {
+    renderChart() {
 
         new Chart(document.getElementById("myChart"), {
             type: 'radar',
@@ -146,7 +149,6 @@ class AgileScrumHealthCheck {
                         borderColor: "rgba(255,99,132,1)",
                         pointBorderColor: "#fff",
                         pointBackgroundColor: "rgba(255,99,132,1)",
-                        pointBorderColor: "#fff",
                         data: [7, 7, 7, 7, 7, 7, 7, 7, 7]
                     }
                 ]
