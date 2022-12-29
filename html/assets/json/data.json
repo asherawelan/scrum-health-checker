@@ -3,63 +3,63 @@
 		{
 			"title": "Sprint Planning",
 			"questions": [
-				"Is it?",
-				"Should I?"
+				{"text": "Is it now?", "checked": false},
+				{"text": "Do we though?", "checked": true}
 			]
 		},
 		{
 			"title": "Daily Scrum",
 			"questions": [
-				"Is it?",
-				"Should I?"
+				{"text": "Is it now?", "checked": false},
+				{"text": "Do we though?", "checked": true}
 			]
 		},
 		{
 			"title": "Sprint Review",
 			"questions": [
-				"Is it?",
-				"Should I?"
+				{"text": "Is it now?", "checked": false},
+				{"text": "Do we though?", "checked": true}
 			]
 		},
 		{
 			"title": "Sprint Retrospective",
 			"questions": [
-				"Is it?",
-				"Should I?"
+				{"text": "Is it now?", "checked": false},
+				{"text": "Do we though?", "checked": true}
 			]
 		},
 		{
 			"title": "Product Owner",
 			"questions": [
-				"Is it?",
-				"Should I?"
+				{"text": "Is it now?", "checked": false},
+				{"text": "Do we though?", "checked": true}
 			]
 		},
 		{
 			"title": "Scrum Master",
 			"questions": [
-				"Is it?",
-				"Should I?"
+				{"text": "Is it now?", "checked": false},
+				{"text": "Do we though?", "checked": true}
 			]
 		},
 		{
 			"title": "Dev Team Skills",
 			"questions": [
-				"Is it?",
-				"Should I?"
+				{"text": "Is it now?", "checked": false},
+				{"text": "Do we though?", "checked": true}
 			]
 		},		{
 			"title": "Product Backlog: Refinement",
 			"questions": [
-				"Is it?",
-				"Should I?"
+				{"text": "Is it now?", "checked": false},
+				{"text": "Do we though?", "checked": true}
 			]
 		},
 		{
 			"title": "Sprint Backlog",
 			"questions": [
-				"Is it?",
-				"Should I?"
+				{"text": "Is it now?", "checked": false},
+				{"text": "Do we though?", "checked": true}
 			]
 		}
 	]

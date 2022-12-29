@@ -1,147 +1,187 @@
+let data = {};
+
 $(function () {
     $.getJSON('assets/json/data.json', function (data) {
+
         if (!checkData(data)) {
             return;
         }
 
-        let accordion = populateAccordion(
-            $('.accordion'), data.sections
+        const agileScrumHealthCheck = new AgileScrumHealthCheck(data);
+
+        agileScrumHealthCheck.renderAccordion();
+        agileScrumHealthCheck.renderChart();
+    });
+});
+
+class AgileScrumHealthCheck {
+
+    constructor(data) {
+        this.data = data;
+    }
+
+     renderAccordion(){
+        let accordion = this.populateAccordion(
+            $('.accordion'), this.data.sections
         );
+
+        accordion.find(':checkbox').on('change', function() {
+            //this.createJsonFromAccordion(accordion);
+        });
 
         accordion.find('.accordion-collapse:first').collapse();
         accordion.find('.template').remove();
-    });
-});
+    }
 
-function populateAccordion(accordion, sections){
-    $(sections).each(function (id) {
-        let accordionItem = createAccordionItem(
-            id, this.title,
-            accordion.find('.accordion-item.template')
-        );
+     populateAccordion(accordion, sections){
+        const boundCreateAccordionItem = this.createAccordionItem.bind(this);
+        const boundPopulateAccordionItem = this.populateAccordionItem.bind(this);
 
-        accordion.prepend(
-            populateAccordionItem(
-                accordionItem, this.questions
-            )
-        );
-    });
+        $(sections).each(function (id) {
+            let accordionItem = boundCreateAccordionItem(
+                id, this.title,
+                accordion.find('.accordion-item.template')
+            );
 
-    return accordion;
-}
+            accordion.prepend(
+                boundPopulateAccordionItem(
+                    accordionItem, this.questions
+                )
+            );
+        });
 
-function populateAccordionItem(accordionItem, questions){
-    $(questions).each(function (index) {
-        let listItem = createListItem(
-            accordionItem.attr('data-section-id'),
-            index, this, accordionItem.find('ul li.template')
-        );
+        return accordion;
+    }
 
-        accordionItem.find('ul').append(listItem);
-    });
+     populateAccordionItem(accordionItem, questions){
+        const boundCreateListItem = this.createListItem.bind(this);
 
-    return accordionItem;
-}
+        $(questions).each(function (index) {
+            let listItem = boundCreateListItem(
+                `${accordionItem.attr('data-section-id')}-${index}`,
+                this.text, this.checked, accordionItem.find('li.template')
+            );
 
-function createAccordionItem(id, title, template) {
-    let el = cloneFromTemplateElement(template);
+            accordionItem.find('ul').prepend(listItem);
+        });
 
-    el.attr('data-section-id', id);
+        return accordionItem;
+    }
 
-    el.find('.accordion-header').attr('id', `accordion-item-${id}`);
-    el.find('.accordion-collapse').attr({
-        'id': `accordion-item-${id}-collapse`,
-        'data-bs-parent': '#sections'
-    });
-    el.find('.accordion-button').attr({
-        'data-bs-toggle': 'collapse',
-        'aria-expanded': 'false',
-        'data-bs-target': `#accordion-item-${id}-collapse`
-    }).text(title);
+     createAccordionItem(id, title, template) {
+        let el = this.cloneFromTemplateElement(template);
 
-    return el;
-}
+        el.attr('data-section-id', id);
 
-function createListItem(sectionId, id, label, template){
-    let el = cloneFromTemplateElement(template);
+        el.find('.accordion-header').attr('id', `accordion-item-${id}`);
+        el.find('.accordion-collapse').attr({
+            'id': `accordion-item-${id}-collapse`,
+            'data-bs-parent': '#sections'
+        });
+        el.find('.accordion-button').attr({
+            'data-bs-toggle': 'collapse',
+            'aria-expanded': 'false',
+            'data-bs-target': `#accordion-item-${id}-collapse`
+        }).text(title);
 
-    el.find('input').attr('id', `list-item-${sectionId}-${id}`);
-    el.find('label').attr('for', `list-item-${sectionId}-${id}`).text(label);
+        return el;
+    }
 
-    return el;
-}
+     createListItem(id, label, checked, template){
+        let el = this.cloneFromTemplateElement(template);
 
-function cloneFromTemplateElement(templateElement){
-    return templateElement.clone().removeClass('template d-none');
-}
+        el.find('input').attr('id', `list-item-${id}`).prop('checked', checked);
+        el.find('label').attr('for', `list-item-${id}`).text(label);
 
+        return el;
+    }
 
+     createChartLabels(){
+        let labels = Object.values(this.data.sections).map(function(value) {
+            return value.title;
+        });
 
-new Chart(document.getElementById("myChart"), {
-    type: 'radar',
-    data: {
-        labels: [
-            'Sprint Planning',
-            'Daily Scrum / Standup',
-            'Sprint Review',
-            'Sprint Retrospective',
-            'Product Owner',
-            'Scrum Master',
-            'Dev Team Skills',
-            'Product Backlog: Refinement',
-            'Sprint Backlog'
-        ],
-        datasets: [
-            {
-                label: "Actual",
-                fill: true,
-                backgroundColor: "rgba(179,181,198,0.2)",
-                borderColor: "rgba(179,181,198,1)",
-                pointBorderColor: "#fff",
-                pointBackgroundColor: "rgba(179,181,198,1)",
-                data: [2, 3, 4, 7, 8, 4, 3, 3, 5]
-            }, {
-                label: "Ideal",
-                fill: true,
-                backgroundColor: "rgba(255,99,132,0.2)",
-                borderColor: "rgba(255,99,132,1)",
-                pointBorderColor: "#fff",
-                pointBackgroundColor: "rgba(255,99,132,1)",
-                pointBorderColor: "#fff",
-                data: [7, 7, 7, 7, 7, 7, 7, 7, 7]
-            }
-        ]
-    },
-    options: {
-        title: {
-            display: true,
-            text: 'Test Title'
-        },
-        scale: {
-            min: 0,
-            max: 10,
-            ticks: {
-                beginAtZero: true,
-                fontSize: 20,
-                gridLines: {
-                    color: 'rgba(0, 0, 0, 0.2)'
+        return labels;
+    }
+
+     createChartData(){
+        let data = Object.values(this.data.sections).map(function(value) {
+            let values = Object.values(value.questions).map(function(question) {
+                return question['checked'];
+            });
+
+            return values.filter(function(value) {
+                return value == true;
+            }).length;
+        });
+
+        return data;
+    }
+
+     renderChart(labels, data){
+
+        new Chart(document.getElementById("myChart"), {
+            type: 'radar',
+            data: {
+                labels: this.createChartLabels(),
+                datasets: [
+                    {
+                        label: "Actual",
+                        fill: true,
+                        backgroundColor: "rgba(179,181,198,0.2)",
+                        borderColor: "rgba(179,181,198,1)",
+                        pointBorderColor: "#fff",
+                        pointBackgroundColor: "rgba(179,181,198,1)",
+                        data: this.createChartData()
+                    }, {
+                        label: "Ideal",
+                        fill: true,
+                        backgroundColor: "rgba(255,99,132,0.2)",
+                        borderColor: "rgba(255,99,132,1)",
+                        pointBorderColor: "#fff",
+                        pointBackgroundColor: "rgba(255,99,132,1)",
+                        pointBorderColor: "#fff",
+                        data: [7, 7, 7, 7, 7, 7, 7, 7, 7]
+                    }
+                ]
+            },
+            options: {
+                title: {
+                    display: true,
+                    text: 'Test Title'
                 },
-                angleLines: {
-                    color: 'black'
-                }
-            }
-        },
-        scales: {
-            r: {
-                pointLabels: {
-                    font: {
-                        size: 18
+                scale: {
+                    min: 0,
+                    max: 10,
+                    ticks: {
+                        beginAtZero: true,
+                        fontSize: 20,
+                        gridLines: {
+                            color: 'rgba(0, 0, 0, 0.2)'
+                        },
+                        angleLines: {
+                            color: 'black'
+                        }
+                    }
+                },
+                scales: {
+                    r: {
+                        pointLabels: {
+                            font: {
+                                size: 18
+                            }
+                        }
                     }
                 }
             }
-        }
+        });
     }
-});
+
+     cloneFromTemplateElement(templateElement){
+        return templateElement.clone().removeClass('template d-none');
+    }
+}
+
 
 function checkData(data) {
     const Ajv = window.ajv7
@@ -158,7 +198,14 @@ function checkData(data) {
                         title: {type: 'string'},
                         questions: {
                             type: 'array',
-                            items: {type: 'string'},
+                            items: {
+                                type: 'object',
+                                properties: {
+                                    text: {type: 'string'},
+                                    score: {type: 'boolean'}
+                                },
+                                required: ['text', 'checked']
+                            },
                             minItems: 1,
                             uniqueItems: true
                         }
@@ -182,3 +229,5 @@ function checkData(data) {
 
     return valid;
 }
+
+
