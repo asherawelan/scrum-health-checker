@@ -8,9 +8,8 @@ $(function () {
         }
 
         const agileScrumHealthCheck = new AgileScrumHealthCheck(data);
+        agileScrumHealthCheck.initialize();
 
-        agileScrumHealthCheck.renderAccordion();
-        agileScrumHealthCheck.renderChart();
     });
 });
 
@@ -20,12 +19,19 @@ class AgileScrumHealthCheck {
         this.data = data;
     }
 
-     renderAccordion(){
+    initialize() {
+        this.renderAccordion();
+        this.renderChart();
+    }
+
+    renderAccordion() {
         let accordion = this.populateAccordion(
             $('.accordion'), this.data.sections
         );
 
-        accordion.find(':checkbox').on('change', function() {
+        accordion.find(':checkbox').on('change', function () {
+
+
             //this.createJsonFromAccordion(accordion);
         });
 
@@ -33,7 +39,7 @@ class AgileScrumHealthCheck {
         accordion.find('.template').remove();
     }
 
-     populateAccordion(accordion, sections){
+    populateAccordion(accordion, sections) {
         const boundCreateAccordionItem = this.createAccordionItem.bind(this);
         const boundPopulateAccordionItem = this.populateAccordionItem.bind(this);
 
@@ -53,7 +59,7 @@ class AgileScrumHealthCheck {
         return accordion;
     }
 
-     populateAccordionItem(accordionItem, questions){
+    populateAccordionItem(accordionItem, questions) {
         const boundCreateListItem = this.createListItem.bind(this);
 
         $(questions).each(function (index) {
@@ -68,7 +74,7 @@ class AgileScrumHealthCheck {
         return accordionItem;
     }
 
-     createAccordionItem(id, title, template) {
+    createAccordionItem(id, title, template) {
         let el = this.cloneFromTemplateElement(template);
 
         el.attr('data-section-id', id);
@@ -87,7 +93,7 @@ class AgileScrumHealthCheck {
         return el;
     }
 
-     createListItem(id, label, checked, template){
+    createListItem(id, label, checked, template) {
         let el = this.cloneFromTemplateElement(template);
 
         el.find('input').attr('id', `list-item-${id}`).prop('checked', checked);
@@ -96,21 +102,21 @@ class AgileScrumHealthCheck {
         return el;
     }
 
-     createChartLabels(){
-        let labels = Object.values(this.data.sections).map(function(value) {
+    createChartLabels() {
+        let labels = Object.values(this.data.sections).map(function (value) {
             return value.title;
         });
 
         return labels;
     }
 
-     createChartData(){
-        let data = Object.values(this.data.sections).map(function(value) {
-            let values = Object.values(value.questions).map(function(question) {
+    createChartData() {
+        let data = Object.values(this.data.sections).map(function (value) {
+            let values = Object.values(value.questions).map(function (question) {
                 return question['checked'];
             });
 
-            return values.filter(function(value) {
+            return values.filter(function (value) {
                 return value == true;
             }).length;
         });
@@ -118,7 +124,7 @@ class AgileScrumHealthCheck {
         return data;
     }
 
-     renderChart(labels, data){
+    renderChart(labels, data) {
 
         new Chart(document.getElementById("myChart"), {
             type: 'radar',
@@ -177,7 +183,7 @@ class AgileScrumHealthCheck {
         });
     }
 
-     cloneFromTemplateElement(templateElement){
+    cloneFromTemplateElement(templateElement) {
         return templateElement.clone().removeClass('template d-none');
     }
 }
