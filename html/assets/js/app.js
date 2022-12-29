@@ -1,16 +1,7 @@
-let data = {};
+import 'https://code.jquery.com/jquery-3.6.0.min.js';
+import 'https://cdn.jsdelivr.net/npm/chart.js';
 
-$(function () {
-    $.getJSON('assets/json/data.json', function (data) {
-
-        if (checkData(data)) {
-            const hc = new AgileScrumHealthCheck(data);
-            hc.initialize();
-        }
-    });
-});
-
-class AgileScrumHealthCheck {
+export class App {
 
     constructor(data) {
         this.data = data;
@@ -21,17 +12,17 @@ class AgileScrumHealthCheck {
         this.renderChart();
     }
 
+    updateData(section, question, checked) {
+        this.data
+            .sections[section]
+            .questions[question]
+            .checked = checked;
+    }
+
     renderAccordion() {
         let accordion = this.populateAccordion(
             $('.accordion'), this.data.sections
         );
-
-        accordion.find(':checkbox').on('change', function () {
-            let sectionIndex = this.closest('.section');
-            console.log(sectionIndex);
-
-            //this.createJsonFromAccordion(accordion);
-        });
 
         accordion.find('.accordion-collapse')
             .not('.template')
@@ -44,9 +35,9 @@ class AgileScrumHealthCheck {
         const boundCreateAccordionItem = this.createAccordionItem.bind(this);
         const boundPopulateAccordionItem = this.populateAccordionItem.bind(this);
 
-        $(sections).each(function (index) {
+        $(sections).each(function (i) {
             let accordionItem = boundCreateAccordionItem(
-                index, this.title,
+                i, this.title,
                 accordion.find('.accordion-item.template')
             );
 
@@ -63,13 +54,11 @@ class AgileScrumHealthCheck {
     populateAccordionItem(accordionItem, questions) {
         const boundCreateListItemCheckBox = this.createListItemCheckBox.bind(this);
 
-        $(questions).each(function (index) {
+        $(questions).each(function (i) {
             let listItem = boundCreateListItemCheckBox(
-                this.text, this.checked,
+                i, this.text, this.checked,
                 accordionItem.find('li.template')
             );
-
-            listItem.find(':checkbox').attr('data-index', index);
 
             accordionItem.find('ul').append(listItem);
         });
@@ -80,8 +69,7 @@ class AgileScrumHealthCheck {
     createAccordionItem(id, title, template) {
         let el = this.cloneFromTemplateElement(template);
 
-        el.attr('data-index', id);
-
+        el.attr('data-id', id);
         el.find('.accordion-header').attr('id', `accordion-item-${id}`);
         el.find('.accordion-collapse').attr({
             'id': `accordion-item-${id}-collapse`,
@@ -96,11 +84,25 @@ class AgileScrumHealthCheck {
         return el;
     }
 
-    createListItemCheckBox(label, checked, template) {
+    createListItemCheckBox(id, label, checked, template) {
+        const boundUpdateData = this.updateData.bind(this);
+        const boundUpdateChart = this.updateChart.bind(this);
+
         let el = this.cloneFromTemplateElement(template);
 
+        el.attr('data-id', id);
         el.find('input').prop('checked', checked);
         el.find('label').text(label);
+
+        el.find('input').on('change', function () {
+            boundUpdateData(
+                $(this).closest('.section').attr('data-id'),
+                $(this).closest('.question').attr('data-id'),
+                $(this).is(':checked')
+            );
+
+            boundUpdateChart();
+        });
 
         return el;
     }
@@ -127,28 +129,34 @@ class AgileScrumHealthCheck {
         return data;
     }
 
-    renderChart() {
+    updateChart() {
+        this.chart.data.datasets[0].data = this.createChartData();
+        this.chart.update();
+    }
 
-        new Chart(document.getElementById("myChart"), {
+    renderChart() {
+        let chart = $('#spiderChart')
+
+        this.chart = new Chart(chart, {
             type: 'radar',
             data: {
                 labels: this.createChartLabels(),
                 datasets: [
                     {
-                        label: "Actual",
+                        label: 'Actual',
                         fill: true,
-                        backgroundColor: "rgba(179,181,198,0.2)",
-                        borderColor: "rgba(179,181,198,1)",
-                        pointBorderColor: "#fff",
-                        pointBackgroundColor: "rgba(179,181,198,1)",
+                        backgroundColor: 'rgba(179,181,198,0.2)',
+                        borderColor: 'rgba(179,181,198,1)',
+                        pointBorderColor: '#fff',
+                        pointBackgroundColor: 'rgba(179,181,198,1)',
                         data: this.createChartData()
                     }, {
-                        label: "Ideal",
+                        label: 'Ideal',
                         fill: true,
-                        backgroundColor: "rgba(255,99,132,0.2)",
-                        borderColor: "rgba(255,99,132,1)",
-                        pointBorderColor: "#fff",
-                        pointBackgroundColor: "rgba(255,99,132,1)",
+                        backgroundColor: 'rgba(255,99,132,0.2)',
+                        borderColor: 'rgba(255,99,132,1)',
+                        pointBorderColor: '#fff',
+                        pointBackgroundColor: 'rgba(255,99,132,1)',
                         data: [7, 7, 7, 7, 7, 7, 7, 7, 7]
                     }
                 ]
@@ -168,7 +176,7 @@ class AgileScrumHealthCheck {
                             color: 'rgba(0, 0, 0, 0.2)'
                         },
                         angleLines: {
-                            color: 'black'
+                            color: '#000'
                         }
                     }
                 },
@@ -189,53 +197,3 @@ class AgileScrumHealthCheck {
         return templateElement.clone().removeClass('template d-none');
     }
 }
-
-
-function checkData(data) {
-    const Ajv = window.ajv7
-    const ajv = new Ajv()
-
-    const schema = {
-        type: 'object',
-        properties: {
-            sections: {
-                type: 'array',
-                items: {
-                    type: 'object',
-                    properties: {
-                        title: {type: 'string'},
-                        questions: {
-                            type: 'array',
-                            items: {
-                                type: 'object',
-                                properties: {
-                                    text: {type: 'string'},
-                                    score: {type: 'boolean'}
-                                },
-                                required: ['text', 'checked']
-                            },
-                            minItems: 1,
-                            uniqueItems: true
-                        }
-                    },
-                    required: ['title', 'questions']
-                },
-                minItems: 1,
-            },
-        },
-        required: ['sections'],
-        additionalProperties: false
-    }
-
-    const validate = ajv.compile(schema);
-    const valid = validate(data);
-
-    if (!valid) {
-        console.log('The data is invalid:');
-        console.log(validate.errors);
-    }
-
-    return valid;
-}
-
-
