@@ -13,12 +13,11 @@ export const schema = {
                             type: 'object',
                             properties: {
                                 text: {type: 'string'},
-                                score: {type: 'boolean'}
+                                checked: {type: 'boolean'}
                             },
-                            required: ['text', 'checked']
+                            required: ['text']
                         },
-                        minItems: 1,
-                        uniqueItems: true
+                        minItems: 1
                     }
                 },
                 required: ['title', 'questions']

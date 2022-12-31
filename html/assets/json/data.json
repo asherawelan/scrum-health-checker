@@ -3,63 +3,135 @@
 		{
 			"title": "Sprint Planning",
 			"questions": [
-				{"text": "Is it now?", "checked": false},
-				{"text": "Do we though?", "checked": true}
+				{"text": "The team decides the size of the next sprint independently and without pressure."},
+				{"text": "All team members have a common understanding of the work."},
+				{"text": "Each member of the team contributes appropriately to Sprint Planning."},
+				{"text": "Tickets are only added to the sprint when they meet the Definition Of Ready"},
+				{"text": "All members of the team agree on the planned work and sprint goal."},
+				{"text": "Takes place at the end of a sprint and immediately before starting the next one."},
+				{"text": "The volume of work taken into sprint is based on the story points. "},
+				{"text": "The total number of points in the sprint feels acheivable"},
+				{"text": "To Define"},
+				{"text": "To Define"}
 			]
 		},
 		{
 			"title": "Daily Scrum",
 			"questions": [
-				{"text": "Is it now?", "checked": false},
-				{"text": "Do we though?", "checked": true}
+				{"text": "Daily stand-ups are a quick check-in, taking under 10 mins."},
+				{"text": "If the PO is present, they are there in an observational capacity – but can be called on to give input."},
+				{"text": "The Sprint Goals the team have set are a focus and referred to / encouraged."},
+				{"text": "Everyone in the team knows who is currently working on what – and has a high-level understanding of what the topic is."},
+				{"text": "The team feel confident to highlight any blocking issues for the day."},
+				{"text": "Significant impediments are handled by the Scrum Master outside of the meeting."},
+				{"text": "The stand-up is at the same time each day."},
+				{"text": "The stand-up can be run independently of the scrum master."},
+				{"text": "To Define"},
+				{"text": "To Define"}
 			]
 		},
 		{
 			"title": "Sprint Review",
 			"questions": [
-				{"text": "Is it now?", "checked": false},
-				{"text": "Do we though?", "checked": true}
+				{"text": "Extensive customer/PO feedback is an integral part of each of the sprint cycles. "},
+				{"text": "The last Sprint Reviews have created a good basis for the preparation of the following Sprints."},
+				{"text": "The team ensure that all relevant stakeholders can participate regularly enough in our Sprint Reviews."},
+				{"text": "The Sprint Review happens every Sprint, at the end of every sprint, before the retro and sprint planning."},
+				{"text": "The Sprint Review is recorded/documented on Confluence "},
+				{"text": "The Sprint Review focuses on working software."},
+				{"text": "Stakeholders are well briefed on the agenda."},
+				{"text": "The Sprint Review is seen in a performance context against other sprints."},
+				{"text": "To Define"},
+				{"text": "To Define"}
 			]
 		},
 		{
 			"title": "Sprint Retrospective",
 			"questions": [
-				{"text": "Is it now?", "checked": false},
-				{"text": "Do we though?", "checked": true}
+				{"text": "The effort and time that the team spends at these meetings are well-invested."},
+				{"text": "The retrospectives are documented and can be referred back."},
+				{"text": "Members can freely express opinions and suggest ideas, share opinions, etc. without them being talked down or over immediately."},
+				{"text": "Opinions and feedback are factual, not personal."},
+				{"text": "The team identify how they want to improve – and demonstrates that happening in the next sprint."},
+				{"text": "Both good and bad experiences are shared about the previous sprint – these can be a mix of technical and personal too."},
+				{"text": "Strong voices are encouraged but managed."},
+				{"text": "Quieter voices are encouraged and amplified."},
+				{"text": "Sprint Retrospective happens every Sprint, at the end of the sprint, and before the sprint planning."},
+				{"text": "Can happen independently of the PO or Scrum Master being present."}
 			]
 		},
 		{
 			"title": "Product Owner",
 			"questions": [
-				{"text": "Is it now?", "checked": false},
-				{"text": "Do we though?", "checked": true}
+				{"text": "The PO attends the stand-up in an observational capacity and contributes when asked."},
+				{"text": "The PO is engaged in Sprint Reviews."},
+				{"text": "The PO is available to the Scrum Master when needed."},
+				{"text": "The PO works with the Scrum Master to keep a healthy backlog."},
+				{"text": "The PO is writing and preparing tickets that comply with the definition of ready (to start)."},
+				{"text": "The team has a single PO."},
+				{"text": "The PO does not tell the dev team how to estimate or implement the work itself."},
+				{"text": "The PO prioritises what working software needs to be delivered in the following sprint."},
+				{"text": "To Define"},
+				{"text": "To Define"}
 			]
 		},
 		{
 			"title": "Scrum Master",
 			"questions": [
-				{"text": "Is it now?", "checked": false},
-				{"text": "Do we though?", "checked": true}
+				{"text": "The performance of our team is stable and plannable over several sprints."},
+				{"text": "The Scrum Master is engaged and interested in the process of managing the work cycle."},
+				{"text": "The Scrum Master shields the team from the PO where needed."},
+				{"text": "The Scrum Master leads the stand-up and other ceremonies."},
+				{"text": "The Scrum Master works with the PO to comb the backlog regularly."},
+				{"text": "The Scrum Master plans the next sprint in advance of it starting."},
+				{"text": "The Scrum Master works to ensure that tickets meet the definition of ready."},
+				{"text": "The Scrum Master (with the PO) moves tickets to Done only when the definition of done is reached."},
+				{"text": "To Define"},
+				{"text": "To Define"}
 			]
 		},
 		{
 			"title": "Dev Team Skills",
 			"questions": [
-				{"text": "Is it now?", "checked": false},
-				{"text": "Do we though?", "checked": true}
+				{"text": "Team members, Product Owner and Scrum Master share the same understanding of their respective roles in the team."},
+				{"text": "The team share unfinished work with stakeholders early to get feedback as quickly as possible."},
+				{"text": "If a team member makes a mistake, they are not judged for it."},
+				{"text": "The team is good at making decisions."},
+				{"text": "There are plenty of opportunities for informal exchange with colleagues."},
+				{"text": "There is a constructive exchange of knowledge happening between newer and more experienced colleagues."},
+				{"text": "The team maintain a close exchange with other teams, customers and service providers in order to be innovative."},
+				{"text": "The team frequently mob and pair throughout the sprint to get tickets to Done."},
+				{"text": "The team as a charter - a written set of values they live by."},
+				{"text": "Team completes work to Definition of Done"}
 			]
 		},		{
 			"title": "Product Backlog: Refinement",
 			"questions": [
-				{"text": "Is it now?", "checked": false},
-				{"text": "Do we though?", "checked": true}
+				{"text": "Backlog refinement in the team is efficient and effective."},
+				{"text": "Backlog refinement in the team happens each sprint."},
+				{"text": "There are at least two sprint’s worth of tickets ready in the Product Backlog."},
+				{"text": "The team make time in each sprint to size the top x number of tickets."},
+				{"text": "The product backlog is well-maintained and ordered."},
+				{"text": "Are tickets small enough?"},
+				{"text": "Are tickets independent?"},
+				{"text": "To Define"},
+				{"text": "To Define"},
+				{"text": "To Define"}
 			]
 		},
 		{
 			"title": "Sprint Backlog",
 			"questions": [
-				{"text": "Is it now?", "checked": false},
-				{"text": "Do we though?", "checked": true}
+				{"text": "The sprint backlog tickets are all sized before the sprint begins."},
+				{"text": "The Spring backlog doesn’t often change mid-sprint."},
+				{"text": "The Scrum Master and the PO have a conversation regarding changing the current sprint’s work – if required."},
+				{"text": "The definition of done is satisfied before a ticket is moved to Done."},
+				{"text": "If a ticket is brought into the sprint a ticket of the same or more value is removed."},
+				{"text": "The team are responsible for delivering a ticket, not just an assigned person."},
+				{"text": "Multiple tickets per person are not present in In Progress. Stop starting start finishing."},
+				{"text": "To Define"},
+				{"text": "To Define"},
+				{"text": "To Define"}
 			]
 		}
 	]
