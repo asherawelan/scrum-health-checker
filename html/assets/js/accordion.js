@@ -111,13 +111,11 @@ export class Accordion {
 
         let that = this;
         el.find('input').on('change', function () {
-            that.data.updateData(
+            that.data.update(
                 $(this).closest('.section').attr('data-id'),
                 $(this).closest('.question').attr('data-id'),
                 $(this).is(':checked')
             )
-
-            // update chart call
         });
 
         return el;

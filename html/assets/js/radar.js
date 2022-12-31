@@ -9,18 +9,15 @@ export class Radar {
         this.data = data;
     }
 
-
     /**
      * Returns an array of labels from the data that can be used
      * by the chart
      * @returns {*[]}
      */
-    createLabels() {
-        let labels = Object.values(this.data.getSections()).map(function (value) {
+    labels() {
+        return Object.values(this.data.getSections()).map(function (value) {
             return value.title;
         });
-
-        return labels;
     }
 
     /**
@@ -28,8 +25,8 @@ export class Radar {
      * by section, that can be plotted on the chart
      * @returns {*[]}
      */
-    createData() {
-        let data = Object.values(this.data.getSections()).map(function (value) {
+    values() {
+        return Object.values(this.data.getSections()).map(function (value) {
             let values = Object.values(value.questions).map(function (question) {
                 return question['checked'];
             });
@@ -38,15 +35,13 @@ export class Radar {
                 return value == true;
             }).length;
         });
-
-        return data;
     }
 
     /**
      * Updates the chart
      */
     update() {
-        this.chart.data.datasets[0].data = this.createData();
+        this.chart.data.datasets[0].data = this.values();
         this.chart.update();
     }
 
@@ -58,7 +53,7 @@ export class Radar {
             $('#spiderChart'), {
             type: 'radar',
             data: {
-                labels: this.createLabels(),
+                labels: this.labels(),
                 datasets: [
                     {
                         label: 'Actual',
@@ -67,7 +62,7 @@ export class Radar {
                         borderColor: 'rgba(179,181,198,1)',
                         pointBorderColor: '#fff',
                         pointBackgroundColor: 'rgba(179,181,198,1)',
-                        data: this.createData()
+                        data: this.values()
                     }, {
                         label: 'Ideal',
                         fill: true,

@@ -3,9 +3,7 @@ import { schema } from './schema.js';
 export class Data {
 
     constructor(data) {
-        if (!this.checkData(data, schema)) {
-
-        }
+        this.check(data, schema);
 
         this.data = data;
     }
@@ -21,7 +19,7 @@ export class Data {
      * @param question
      * @param checked
      */
-    updateData(section, question, checked){
+    update(section, question, checked){
         this.data
             .sections[section]
             .questions[question]
@@ -37,7 +35,7 @@ export class Data {
      * @param schema
      * @returns {boolean}
      */
-    checkData(data, schema) {
+    check(data, schema) {
         const ajv = new  window.ajv7();
         const validate = ajv.compile(schema);
 

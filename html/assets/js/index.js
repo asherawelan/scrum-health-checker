@@ -5,7 +5,6 @@ import { App } from './app.js';
 
 $(function() {
     $.getJSON('assets/json/data.json', function(data) {
-
         try {
             data = new Data(data);
 
