@@ -105,7 +105,7 @@
 				{"text": "Team completes work to Definition of Done"}
 			]
 		},		{
-			"title": "Product Backlog: Refinement",
+			"title": "Product Backlog",
 			"questions": [
 				{"text": "Backlog refinement in the team is efficient and effective."},
 				{"text": "Backlog refinement in the team happens each sprint."},

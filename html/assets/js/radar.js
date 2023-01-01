@@ -56,7 +56,7 @@ export class Radar {
                 labels: this.labels(),
                 datasets: [
                     {
-                        label: 'Actual',
+                        label: 'Today',
                         fill: true,
                         backgroundColor: 'rgba(179,181,198,0.2)',
                         borderColor: 'rgba(179,181,198,1)',
@@ -64,7 +64,7 @@ export class Radar {
                         pointBackgroundColor: 'rgba(179,181,198,1)',
                         data: this.values()
                     }, {
-                        label: 'Ideal',
+                        label: 'Goal',
                         fill: true,
                         backgroundColor: 'rgba(255,99,132,0.2)',
                         borderColor: 'rgba(255,99,132,1)',
@@ -75,16 +75,46 @@ export class Radar {
                 ]
             },
             options: {
-                title: {
-                    display: true,
-                    text: 'Test Title'
+                maintainAspectRatio: true,
+                aspectRatio: 1.3,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Agile Scrum Health Check',
+                        font: {
+                            size: 30
+                        },
+                        padding: {
+                            top: 30,
+                            bottom: 10
+                        }
+                    },
+                    subtitle: {
+                        display: true,
+                        text: 'Team Pegasus',
+                        font: {
+                            size: 22
+                        },
+                        padding: {
+                            top: 10,
+                            bottom: 50
+                        }
+                    },
+                    legend: {
+                        display: true,
+                        position: 'bottom',
+                        labels: {
+                            color: '#000',
+                            padding: 30
+                        }
+                    }
                 },
                 scale: {
                     min: 0,
                     max: 10,
                     ticks: {
                         beginAtZero: true,
-                        fontSize: 20,
+                        fontSize: 16,
                         gridLines: {
                             color: 'rgba(0, 0, 0, 0.2)'
                         },
@@ -94,6 +124,9 @@ export class Radar {
                     }
                 },
                 scales: {
+                    yAxes: [{
+                        position: 'top'
+                    }],
                     r: {
                         pointLabels: {
                             font: {
