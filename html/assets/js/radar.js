@@ -2,7 +2,8 @@ export class Radar {
 
     constructor(data) {
         let that = this;
-        $(data).on('change', function() {
+
+        $(data).on('change', function () {
             that.update();
         });
 
@@ -51,92 +52,91 @@ export class Radar {
     render() {
         this.chart = new Chart(
             $('#spiderChart'), {
-            type: 'radar',
-            data: {
-                labels: this.labels(),
-                datasets: [
-                    {
-                        label: 'Today',
-                        fill: true,
-                        backgroundColor: 'rgba(179,181,198,0.2)',
-                        borderColor: 'rgba(179,181,198,1)',
-                        pointBorderColor: '#fff',
-                        pointBackgroundColor: 'rgba(179,181,198,1)',
-                        data: this.values()
-                    }, {
-                        label: 'Goal',
-                        fill: true,
-                        backgroundColor: 'rgba(255,99,132,0.2)',
-                        borderColor: 'rgba(255,99,132,1)',
-                        pointBorderColor: '#fff',
-                        pointBackgroundColor: 'rgba(255,99,132,1)',
-                        data: [7, 7, 7, 7, 7, 7, 7, 7, 7]
-                    }
-                ]
-            },
-            options: {
-                maintainAspectRatio: true,
-                aspectRatio: 1.3,
-                plugins: {
-                    title: {
-                        display: true,
-                        text: 'Agile Scrum Health Check',
-                        font: {
-                            size: 30
-                        },
-                        padding: {
-                            top: 30,
-                            bottom: 10
+                type: 'radar',
+                data: {
+                    labels: this.labels(),
+                    datasets: [
+                        {
+                            label: 'Today',
+                            fill: true,
+                            backgroundColor: 'rgba(179,181,198,0.2)',
+                            borderColor: 'rgba(179,181,198,1)',
+                            pointBorderColor: '#fff',
+                            pointBackgroundColor: 'rgba(179,181,198,1)',
+                            data: this.values()
+                        }, {
+                            label: 'Goal',
+                            fill: true,
+                            backgroundColor: 'rgba(255,99,132,0.2)',
+                            borderColor: 'rgba(255,99,132,1)',
+                            pointBorderColor: '#fff',
+                            pointBackgroundColor: 'rgba(255,99,132,1)',
+                            data: [7, 7, 7, 7, 7, 7, 7, 7, 7]
                         }
-                    },
-                    subtitle: {
-                        display: true,
-                        text: 'Team Pegasus',
-                        font: {
-                            size: 22
-                        },
-                        padding: {
-                            top: 10,
-                            bottom: 50
-                        }
-                    },
-                    legend: {
-                        display: true,
-                        position: 'bottom',
-                        labels: {
-                            color: '#000',
-                            padding: 30
-                        }
-                    }
+                    ]
                 },
-                scale: {
-                    min: 0,
-                    max: 10,
-                    ticks: {
-                        beginAtZero: true,
-                        fontSize: 16,
-                        gridLines: {
-                            color: 'rgba(0, 0, 0, 0.2)'
-                        },
-                        angleLines: {
-                            color: '#000'
-                        }
-                    }
-                },
-                scales: {
-                    yAxes: [{
-                        position: 'top'
-                    }],
-                    r: {
-                        pointLabels: {
+                options: {
+                    maintainAspectRatio: true,
+                    aspectRatio: 1.3,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: 'Agile Scrum Health Check',
                             font: {
-                                size: 18
+                                size: 30
+                            },
+                            padding: {
+                                top: 30,
+                                bottom: 10
+                            }
+                        },
+                        subtitle: {
+                            display: true,
+                            text: 'Team Pegasus',
+                            font: {
+                                size: 22
+                            },
+                            padding: {
+                                top: 10,
+                                bottom: 50
+                            }
+                        },
+                        legend: {
+                            display: true,
+                            position: 'bottom',
+                            labels: {
+                                color: '#000',
+                                padding: 30
+                            }
+                        }
+                    },
+                    scale: {
+                        min: 0,
+                        max: 10,
+                        ticks: {
+                            beginAtZero: true,
+                            fontSize: 16,
+                            gridLines: {
+                                color: 'rgba(0, 0, 0, 0.2)'
+                            },
+                            angleLines: {
+                                color: '#000'
+                            }
+                        }
+                    },
+                    scales: {
+                        yAxes: [{
+                            position: 'top'
+                        }],
+                        r: {
+                            pointLabels: {
+                                font: {
+                                    size: 18
+                                }
                             }
                         }
                     }
                 }
-            }
-        });
+            });
     }
-
 }

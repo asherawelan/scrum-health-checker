@@ -1,14 +1,32 @@
-import { schema } from './schema.js';
+import {schema} from './schema.js';
 
 export class Data {
+    /**
+     * Loads the data from local storage, if this isn't
+     * present, then the data is loaded from json file.
+     * @param callback
+     * @returns {Promise<void>}
+     */
+    async load(callback) {
+        const data = localStorage.getItem('data');
 
-    constructor(data) {
-        this.check(data, schema);
-
-        this.data = data;
+        if (data) {
+            this.data = JSON.parse(data);
+        } else {
+            const response = await fetch('./assets/json/data.json');
+            if (response.ok) {
+                const data = await response.json();
+                this.data = this.check(data, schema) ? data : null;
+            }
+        }
+        callback(this);
     }
 
-    getSections(){
+    /**
+     * Returns just the sections from the json data
+     * @returns {}
+     */
+    getSections() {
         return this.data.sections;
     }
 
@@ -19,11 +37,13 @@ export class Data {
      * @param question
      * @param checked
      */
-    update(section, question, checked){
+    update(section, question, checked) {
         this.data
             .sections[section]
             .questions[question]
             .checked = checked;
+
+        localStorage.setItem('data', JSON.stringify(this.data));
 
         $(this).trigger('change');
     }
@@ -36,15 +56,14 @@ export class Data {
      * @returns {boolean}
      */
     check(data, schema) {
-        const ajv = new  window.ajv7();
+        const ajv = new window.ajv7();
         const validate = ajv.compile(schema);
 
-        let valid;
+        let valid = validate(data);
 
-        if (valid = validate(data) !== true) {
+        if (valid !== true) {
             throw new Error(ajv.errorsText(validate.errors));
         }
-
         return valid;
     }
 }

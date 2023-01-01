@@ -1,15 +1,19 @@
+import {Data} from "./data.js";
+import {Accordion} from "./accordion.js";
+import {Radar} from "./radar.js";
+
 export class App {
-
-    constructor(accordion, radar) {
-        this.accordion = accordion;
-        this.radar = radar;
-    }
-
     /**
      * Renders the accordion and chart
      */
     initialize() {
-        this.accordion.render();
-        this.radar.render();
+        try {
+            new Data().load(function (data) {
+                new Accordion(data).render();
+                new Radar(data).render();
+            });
+        } catch (error) {
+            console.log(error);
+        }
     }
 }
