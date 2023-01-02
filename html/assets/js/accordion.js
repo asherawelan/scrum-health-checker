@@ -11,7 +11,7 @@ export class Accordion {
      */
     render() {
         let accordion = this.populate(
-            $('.accordion'), this.data.getSections()
+            $('.accordion'), this.data.sections()
         );
 
         accordion.find('.accordion-collapse')
@@ -21,6 +21,8 @@ export class Accordion {
         accordion.find('.template').remove();
     }
 
+
+
     /**
      * Returns a populated accordion, By iterating over each
      * section and creating and appending  new accordion items.
@@ -29,17 +31,15 @@ export class Accordion {
      * @returns {*}
      */
     populate(accordion, sections) {
-        let that = this;
-
-        $(sections).each(function (i) {
-            let accordionItem = that.createItem(
-                i, this.title,
+        $(sections).each( (i, section) => {
+            let accordionItem = this.createItem(
+                i, section.title,
                 accordion.find('.accordion-item.template')
             );
 
             accordion.append(
-                that.populateItem(
-                    accordionItem, this.questions
+                this.populateItem(
+                    accordionItem, section.questions
                 )
             );
         });
@@ -54,10 +54,9 @@ export class Accordion {
      * @returns {*}
      */
     populateItem(item, questions) {
-        let that = this;
-        $(questions).each(function (i) {
-            let listItem = that.createListItemCheckBox(
-                i, this.text, this.checked,
+        $(questions).each( (i, question) => {
+            let listItem = this.createListItemCheckBox(
+                i, question.text, question.checked,
                 item.find('li.template')
             );
 
@@ -109,13 +108,13 @@ export class Accordion {
         el.find('input').prop('checked', checked);
         el.find('label').text(label);
 
-        let that = this;
-        el.find('input').on('change', function () {
-            that.data.update(
-                $(this).closest('.section').attr('data-id'),
-                $(this).closest('.question').attr('data-id'),
-                $(this).is(':checked')
-            )
+        el.find('input').on('change', (e) => {
+            let el = e.target;
+            this.data.updateSection(
+                $(el).closest('.section').attr('data-id'),
+                $(el).closest('.question').attr('data-id'),
+                $(el).is(':checked')
+            );
         });
 
         return el;

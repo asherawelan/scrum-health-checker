@@ -6,26 +6,44 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="assets/css/app.css">
 </head>
-<body>
-	<div class="container-fluid pb-3">
-		<div class="d-grid gap-3 mt-3">
-			<div class="bg-light border rounded-3">
-				<canvas id="spiderChart"></canvas>
+<body class="bg-light">
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+		<div class="container-fluid">
+			<a class="navbar-brand" href="#">Agile Scrum Health Check</a>
+		</div>
+	</nav>
+	<div class="container">
+		<div class="row g-0">
+			<div class="col-8">
+				<canvas></canvas>
 			</div>
-			<div class="bg-light border rounded-3">
-				<div class="accordion" id="sections">
-					<div class="section accordion-item template d-none">
-						<h2 id="template-heading" class="accordion-header">
-							<button type="button" class="accordion-button collapsed"></button>
-						</h2>
-						<div class="accordion-collapse collapse">
-							<div class="accordion-body">
-								<ul class="questions list-unstyled m-0">
-									<li class="question form-check template d-none">
-										<input class="form-check-input" type="checkbox" value="1">
-										<label class="form-check-label"></label>
-									</li>
-								</ul>
+			<div class="col-4">
+				<div class="row mb-3 mt-3">
+					<div class="col">
+						<form>
+							<div class="form-group p-4 border bg-white">
+								<input type="text" class="form-control" id="team" placeholder="Enter your Team Name">
+							</div>
+						</form>
+					</div>
+				</div>
+				<div class="row mb-3">
+					<div class="col">
+						<div class="accordion" id="sections">
+							<div class="section accordion-item template d-none">
+								<h2 id="template-heading" class="accordion-header">
+									<button type="button" class="accordion-button collapsed"></button>
+								</h2>
+								<div class="accordion-collapse collapse">
+									<div class="accordion-body">
+										<ul class="questions list-unstyled m-0">
+											<li class="question form-check template d-none">
+												<input class="form-check-input" type="checkbox" value="1">
+												<label class="form-check-label"></label>
+											</li>
+										</ul>
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>

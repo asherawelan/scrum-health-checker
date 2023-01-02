@@ -8,12 +8,21 @@ export class App {
      */
     initialize() {
         try {
-            new Data().load(function (data) {
+            new Data().load( (data) => {
                 new Accordion(data).render();
                 new Radar(data).render();
+
+                this.setup(data);
             });
         } catch (error) {
             console.log(error);
         }
+    }
+
+    setup(data) {
+        // When the team name is changed then data and chart updated
+        $('#team').on('change', function () {
+            data.updateTeam(this.value);
+        }).val(data.team());
     }
 }

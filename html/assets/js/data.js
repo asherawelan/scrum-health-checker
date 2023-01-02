@@ -26,8 +26,12 @@ export class Data {
      * Returns just the sections from the json data
      * @returns {}
      */
-    getSections() {
+    sections() {
         return this.data.sections;
+    }
+
+    team() {
+        return this.data.team
     }
 
     /**
@@ -37,14 +41,23 @@ export class Data {
      * @param question
      * @param checked
      */
-    update(section, question, checked) {
+    updateSection(section, question, checked) {
         this.data
             .sections[section]
             .questions[question]
             .checked = checked;
 
-        localStorage.setItem('data', JSON.stringify(this.data));
+        this.save();
+    }
 
+    updateTeam(title) {
+        this.data.team = title;
+
+        this.save();
+    }
+
+    save() {
+        localStorage.setItem('data', JSON.stringify(this.data));
         $(this).trigger('change');
     }
 

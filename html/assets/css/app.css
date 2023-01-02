@@ -1,8 +1,4 @@
-@import url('https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css');
-
-.d-grid {
-    grid-template-columns: 2fr 1fr;
-}
+@import url('https://bootswatch.com/5/sandstone/bootstrap.min.css');
 
 ul li.question{
     margin-bottom: 10px;

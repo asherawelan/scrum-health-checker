@@ -1,13 +1,22 @@
 export class Radar {
 
     constructor(data) {
-        let that = this;
-
-        $(data).on('change', function () {
-            that.update();
+        $(data).on('change',  () => {
+            this.updateValues();
+            this.updateTitle();
         });
 
         this.data = data;
+    }
+
+    updateTitle() {
+        this.chart.options.plugins.title.text = this.data.team();
+        this.chart.update();
+    }
+
+    updateValues() {
+        this.chart.data.datasets[0].data = this.values();
+        this.chart.update();
     }
 
     /**
@@ -16,7 +25,7 @@ export class Radar {
      * @returns {*[]}
      */
     labels() {
-        return Object.values(this.data.getSections()).map(function (value) {
+        return Object.values(this.data.sections()).map(function (value) {
             return value.title;
         });
     }
@@ -27,7 +36,7 @@ export class Radar {
      * @returns {*[]}
      */
     values() {
-        return Object.values(this.data.getSections()).map(function (value) {
+        return Object.values(this.data.sections()).map(function (value) {
             let values = Object.values(value.questions).map(function (question) {
                 return question['checked'];
             });
@@ -39,19 +48,11 @@ export class Radar {
     }
 
     /**
-     * Updates the chart
-     */
-    update() {
-        this.chart.data.datasets[0].data = this.values();
-        this.chart.update();
-    }
-
-    /**
      * Renders the chart
      */
     render() {
         this.chart = new Chart(
-            $('#spiderChart'), {
+            $('canvas'), {
                 type: 'radar',
                 data: {
                     labels: this.labels(),
@@ -81,24 +82,13 @@ export class Radar {
                     plugins: {
                         title: {
                             display: true,
-                            text: 'Agile Scrum Health Check',
+                            text: this.data.team(),
                             font: {
                                 size: 30
                             },
                             padding: {
                                 top: 30,
-                                bottom: 10
-                            }
-                        },
-                        subtitle: {
-                            display: true,
-                            text: 'Team Pegasus',
-                            font: {
-                                size: 22
-                            },
-                            padding: {
-                                top: 10,
-                                bottom: 50
+                                bottom: 40
                             }
                         },
                         legend: {
