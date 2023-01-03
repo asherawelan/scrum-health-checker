@@ -73,7 +73,7 @@
 				{"text": "The Product Owner is writing and preparing tickets that comply with the Definition of Ready."},
 				{"text": "The Product Owner does not tell the team how to estimate or implement the tickets."},
 				{"text": "The Product Owner prioritises what working software needs to be delivered in the following sprint."},
-				{"text": "The Product Owner does not regularly change the Sprint Backlog."},
+				{"text": "The Product Owner does not regularly change the Sprint Backlog."}
 			]
 		},
 		{
