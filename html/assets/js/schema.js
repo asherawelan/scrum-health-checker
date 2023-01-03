@@ -1,6 +1,13 @@
+/**
+ * This schema is used when validating the json used in the app
+ * @type {}
+ */
 export const schema = {
     type: 'object',
     properties: {
+        team: {
+            type: 'string'
+        },
         sections: {
             type: 'array',
             items: {
@@ -25,6 +32,6 @@ export const schema = {
             minItems: 1,
         },
     },
-    required: ['sections'],
+    required: ['sections', 'team'],
     additionalProperties: false
 }

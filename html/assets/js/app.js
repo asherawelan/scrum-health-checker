@@ -9,20 +9,29 @@ export class App {
     initialize() {
         try {
             new Data().load( (data) => {
-                new Accordion(data).render();
-                new Radar(data).render();
+                new Accordion(data).render(
+                    (data) => {
+                        $('#team').on('change', function () {
+                            data.updateTeam(this.value);
+                        }).val(data.team());
 
-                this.setup(data);
+                        $('#reset').on('click',  (e) => {
+                            data.reset();
+                        });
+                    }
+                );
+
+                new Radar(data).render(
+                    (radar) => {
+                        $('#download').on('click',  (e) => {
+                            radar.download();
+                        });
+                    }
+                );
+
             });
         } catch (error) {
             console.log(error);
         }
-    }
-
-    setup(data) {
-        // When the team name is changed then data and chart updated
-        $('#team').on('change', function () {
-            data.updateTeam(this.value);
-        }).val(data.team());
     }
 }

@@ -1,9 +1,6 @@
 @import url('https://bootswatch.com/5/sandstone/bootstrap.min.css');
-
-ul li.question{
-    margin-bottom: 10px;
-}
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css');
 
 ul li.question:last-child{
-    margin-bottom: 0px;
+    margin-bottom: 0px !important;
 }

@@ -8,18 +8,51 @@ export class Data {
      * @returns {Promise<void>}
      */
     async load(callback) {
+        // Try and load the data from local storage, if
+        // that doesn't exist, load from the file.
+        try {
+            this.data = this.loadFromLocalStorage();
+        } catch (error) {
+            this.data = await this.loadJsonFromFile();
+        }
+
+        callback(this);
+    }
+
+    /**
+     * Loads JSON from file - used when no JSON exists
+     * in the local storage
+     * @returns {Promise<any|null>}
+     */
+    async loadJsonFromFile() {
+        const response = await fetch('./assets/json/data.json');
+        const data = await response.json();
+
+        return this.check(data, schema) ? data : null;
+    }
+
+    /**
+     * Loads JSON from the local storage, and parses it ready
+     * to be used by the accordion and chart
+     * @returns {any}
+     */
+    loadFromLocalStorage() {
         const data = localStorage.getItem('data');
 
-        if (data) {
-            this.data = JSON.parse(data);
-        } else {
-            const response = await fetch('./assets/json/data.json');
-            if (response.ok) {
-                const data = await response.json();
-                this.data = this.check(data, schema) ? data : null;
-            }
+        if (!data) {
+           throw new Error('Nothing saved in local storage');
         }
-        callback(this);
+
+        return JSON.parse(data);
+    }
+
+    /**
+     * Clears any data saved in local storage and refreshes
+     * the page, ready to start over
+     */
+    reset() {
+        localStorage.removeItem('data');
+        location.reload();
     }
 
     /**

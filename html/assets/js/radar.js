@@ -9,11 +9,17 @@ export class Radar {
         this.data = data;
     }
 
+    /**
+     * Updates the chart title, with value from data object
+     */
     updateTitle() {
         this.chart.options.plugins.title.text = this.data.team();
         this.chart.update();
     }
 
+    /**
+     * Updates the chart dataset with values from the data object
+     */
     updateValues() {
         this.chart.data.datasets[0].data = this.values();
         this.chart.update();
@@ -48,9 +54,33 @@ export class Radar {
     }
 
     /**
+     * Returns a formatted date
+     * @returns {string}
+     */
+    date() {
+        return new Date().toLocaleDateString(
+            'en-GB', { day: 'numeric', month: 'short', year: 'numeric' }
+        );
+    }
+
+    /**
+     * Downloads the chart as a PNG
+     */
+    download() {
+        let link = document.createElement('a');
+        link.download = `${this.data.team()} - ${this.date()}`;
+
+        link.href = document.getElementById('radar')
+            .toDataURL('image/png', 1.0)
+            .replace("image/png", "image/octet-stream");
+
+        link.click();
+    }
+
+    /**
      * Renders the chart
      */
-    render() {
+    render(callback) {
         this.chart = new Chart(
             $('canvas'), {
                 type: 'radar',
@@ -88,7 +118,18 @@ export class Radar {
                             },
                             padding: {
                                 top: 30,
-                                bottom: 40
+                                bottom: 10
+                            }
+                        },
+                        subtitle: {
+                            display: true,
+                            text: `${this.date()}`,
+                            font: {
+                                size: 18,
+                            },
+                            padding: {
+                                top: 10,
+                                bottom: 60
                             }
                         },
                         legend: {
@@ -128,5 +169,7 @@ export class Radar {
                     }
                 }
             });
+
+        callback(this);
     }
 }

@@ -9,7 +9,7 @@ export class Accordion {
      * accordion item and then remove any template
      * artifacts from the dom
      */
-    render() {
+    render(callback) {
         let accordion = this.populate(
             $('.accordion'), this.data.sections()
         );
@@ -19,6 +19,8 @@ export class Accordion {
             .collapse();
 
         accordion.find('.template').remove();
+
+        callback(this.data);
     }
 
 
