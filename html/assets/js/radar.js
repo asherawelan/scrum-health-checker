@@ -81,6 +81,19 @@ export class Radar {
      * Renders the chart
      */
     render(callback) {
+
+        const customCanvasBackgroundColor = {
+            id: 'customCanvasBackgroundColor',
+            beforeDraw: (chart, args, options) => {
+                const {ctx} = chart;
+                ctx.save();
+                ctx.globalCompositeOperation = 'destination-over';
+                ctx.fillStyle = options.color || '#99ffff';
+                ctx.fillRect(0, 0, chart.width, chart.height);
+                ctx.restore();
+            }
+        };
+
         this.chart = new Chart(
             $('canvas'), {
                 type: 'radar',
@@ -107,8 +120,16 @@ export class Radar {
                     ]
                 },
                 options: {
+                    backgroundColor: '#fff',
                     maintainAspectRatio: true,
                     aspectRatio: 1.3,
+
+                    layout: {
+                        padding: {
+                            bottom: 50
+                        }
+                    },
+
                     plugins: {
                         title: {
                             display: true,
@@ -139,6 +160,9 @@ export class Radar {
                                 color: '#000',
                                 padding: 30
                             }
+                        },
+                        customCanvasBackgroundColor: {
+                            color: 'white',
                         }
                     },
                     scale: {
@@ -156,9 +180,6 @@ export class Radar {
                         }
                     },
                     scales: {
-                        yAxes: [{
-                            position: 'top'
-                        }],
                         r: {
                             pointLabels: {
                                 font: {
@@ -167,7 +188,8 @@ export class Radar {
                             }
                         }
                     }
-                }
+                },
+                plugins: [customCanvasBackgroundColor],
             });
 
         callback(this);
