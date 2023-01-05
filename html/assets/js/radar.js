@@ -68,7 +68,7 @@ export class Radar {
      */
     download() {
         let link = document.createElement('a');
-        link.download = `${this.data.team()} - ${this.date()}`;
+        link.download = `${this.data.team()} - ${this.date()}.png`;
 
         link.href = document.getElementById('radar')
             .toDataURL('image/png', 1.0)
