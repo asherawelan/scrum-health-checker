@@ -56,7 +56,7 @@ export class Data {
     }
 
     /**
-     * Downloads the JSON saved in local storage
+     * Downloads JSON from local storage
      */
     download() {
         const data = this.loadFromLocalStorage();
@@ -66,6 +66,31 @@ export class Data {
         });
 
         saveAs(blob, `${this.team()} - ${this.date()}.json`);
+    }
+
+    /**
+     * Present a browse box to choose the JSON file
+     */
+    upload() {
+        const fileInput = document.createElement('input');
+        fileInput.type = 'file';
+        fileInput.addEventListener('change', this.handleFileSelect, false);
+        fileInput.click();
+    }
+
+    /**
+     * Saves the JSON to local storage
+     */
+    handleFileSelect(event) {
+        const file = event.target.files[0];
+
+        const reader = new FileReader();
+        reader.onload = function(event) {
+            const data = JSON.parse(event.target.result);
+            localStorage.setItem('data', JSON.stringify(data));
+            location.reload();
+        };
+        reader.readAsText(file);
     }
 
     /**
