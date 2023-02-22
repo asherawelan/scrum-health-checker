@@ -9,7 +9,7 @@ export class Accordion {
      * accordion item and then remove any template
      * artifacts from the dom
      */
-    render(callback) {
+    init(callback) {
         let accordion = this.populate(
             $('.accordion'), this.data.sections()
         );
@@ -22,8 +22,6 @@ export class Accordion {
 
         callback(this.data);
     }
-
-
 
     /**
      * Returns a populated accordion, By iterating over each
@@ -118,7 +116,7 @@ export class Accordion {
                 $(el).is(':checked')
             );
         });
-
+        
         return el;
     }
 

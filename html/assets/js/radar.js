@@ -1,7 +1,7 @@
 export class Radar {
 
     constructor(data) {
-        $(data).on('change',  () => {
+        $(data).on('change', () => {
             this.updateValues();
             this.updateTitle();
         });
@@ -76,7 +76,7 @@ export class Radar {
     /**
      * Renders the chart
      */
-    render(callback) {
+    init(callback) {
         const customCanvasBackgroundColor = {
             id: 'customCanvasBackgroundColor',
             beforeDraw: (chart, args, options) => {

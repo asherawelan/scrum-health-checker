@@ -14,6 +14,7 @@ export class Data {
             this.data = this.loadFromLocalStorage();
         } catch (error) {
             this.data = await this.loadJsonFromFile();
+            this.saveToLocalStorage();
         }
 
         callback(this);
@@ -37,13 +38,9 @@ export class Data {
      * @returns {any}
      */
     loadFromLocalStorage() {
-        const data = localStorage.getItem('data');
+        let data = JSON.parse(localStorage.getItem('data'));
 
-        if (!data) {
-           throw new Error('Nothing saved in local storage');
-        }
-
-        return JSON.parse(data);
+        return this.check(data, schema) ? data : null;
     }
 
     /**
@@ -74,23 +71,23 @@ export class Data {
     upload() {
         const fileInput = document.createElement('input');
         fileInput.type = 'file';
-        fileInput.addEventListener('change', this.handleFileSelect, false);
+
+        fileInput.addEventListener('change', (event) => {
+            const file = event.target.files[0];
+
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                const data = JSON.parse(event.target.result);
+
+                this.data = this.check(data, schema) ? data : null;
+                this.saveToLocalStorage();
+                this.reload();
+
+            };
+            reader.readAsText(file);
+        });
+
         fileInput.click();
-    }
-
-    /**
-     * Saves the JSON to local storage
-     */
-    handleFileSelect(event) {
-        const file = event.target.files[0];
-
-        const reader = new FileReader();
-        reader.onload = function(event) {
-            const data = JSON.parse(event.target.result);
-            localStorage.setItem('data', JSON.stringify(data));
-            location.reload();
-        };
-        reader.readAsText(file);
     }
 
     /**
@@ -112,7 +109,16 @@ export class Data {
     }
 
     /**
-     * Returns the team nname
+     * Reloads the app
+     * @returns {string}
+     */
+    reload() {
+        location.reload();
+    }
+
+    /**
+     * Returns the team
+     * name
      * @returns {string}
      */
     team() {
@@ -132,18 +138,18 @@ export class Data {
             .questions[question]
             .checked = checked;
 
-        this.save();
+        $(this).trigger('change');
+
+        this.saveToLocalStorage();
     }
 
     updateTeam(title) {
         this.data.team = title;
-
-        this.save();
+        this.saveToLocalStorage();
     }
 
-    save() {
+    saveToLocalStorage() {
         localStorage.setItem('data', JSON.stringify(this.data));
-        $(this).trigger('change');
     }
 
     /**

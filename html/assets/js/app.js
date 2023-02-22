@@ -1,42 +1,52 @@
 import {Data} from "./data.js";
 import {Accordion} from "./accordion.js";
 import {Radar} from "./radar.js";
+import {Pdf} from "./pdf.js";
 
 export class App {
     /**
-     * Renders the accordion and chart
+     * Sets up the app components
      */
     initialize() {
         try {
             new Data().load( (data) => {
-                new Accordion(data).render(
+
+                this.accordion = new Accordion(data);
+                this.radar = new Radar(data);
+
+                this.accordion.init(
                     (data) => {
-                        $('#team').on('change', function () {
-                            data.updateTeam(this.value);
+                        $('#team').on('change', (e) => {
+                            data.updateTeam(e.currentTarget.value);
                         }).val(data.team());
 
-                        $('#reset').on('click',  (e) => {
+                        $('#reset').on('click', (e) => {
                             data.reset();
                         });
 
-                        $('#download-json').on('click',  (e) => {
+                        $('#download-json').on('click', (e) => {
                             data.download();
                         });
 
-                        $('#upload-json').on('click',  (e) => {
+                        $('#upload-json').on('click', (e) => {
                             data.upload();
                         });
                     }
                 );
 
-                new Radar(data).render(
+                this.radar.init(
                     (radar) => {
-                        $('#download-graph').on('click',  (e) => {
+                        $('#download-graph').on('click', (e) => {
                             radar.download();
                         });
                     }
                 );
 
+                // new Pdf(data).init(
+                //     (pdf) => {
+                //         console.log(123);
+                //     }
+                // );
             });
         } catch (error) {
             console.log(error);
