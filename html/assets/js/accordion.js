@@ -116,7 +116,7 @@ export class Accordion {
                 $(el).is(':checked')
             );
         });
-        
+
         return el;
     }
 

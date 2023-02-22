@@ -1,10 +1,11 @@
 export class Radar {
 
     constructor(data) {
-        $(data).on('change', () => {
-            this.updateValues();
-            this.updateTitle();
-        });
+        window.addEventListener('doChartUpdates', (e) => {
+                this.updateValues();
+                this.updateTitle();
+            }, false
+        );
 
         this.data = data;
     }

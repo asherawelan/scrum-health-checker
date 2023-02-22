@@ -137,9 +137,6 @@ export class Data {
             .sections[section]
             .questions[question]
             .checked = checked;
-
-        $(this).trigger('change');
-
         this.saveToLocalStorage();
     }
 
@@ -150,6 +147,10 @@ export class Data {
 
     saveToLocalStorage() {
         localStorage.setItem('data', JSON.stringify(this.data));
+
+        window.dispatchEvent(
+            new Event('doChartUpdates')
+        );
     }
 
     /**
