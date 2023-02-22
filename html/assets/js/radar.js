@@ -67,21 +67,16 @@ export class Radar {
      * Downloads the chart as a PNG
      */
     download() {
-        let link = document.createElement('a');
-        link.download = `${this.data.team()} - ${this.date()}.png`;
-
-        link.href = document.getElementById('radar')
-            .toDataURL('image/png', 1.0)
-            .replace("image/png", "image/octet-stream");
-
-        link.click();
+        const canvas = document.getElementById('radar');
+        canvas.toBlob((blob) => {
+            saveAs(blob, `${this.data.team()} - ${this.date()}.png`);
+        });
     }
 
     /**
      * Renders the chart
      */
     render(callback) {
-
         const customCanvasBackgroundColor = {
             id: 'customCanvasBackgroundColor',
             beforeDraw: (chart, args, options) => {

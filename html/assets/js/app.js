@@ -18,12 +18,16 @@ export class App {
                         $('#reset').on('click',  (e) => {
                             data.reset();
                         });
+
+                        $('#download-json').on('click',  (e) => {
+                            data.download();
+                        });
                     }
                 );
 
                 new Radar(data).render(
                     (radar) => {
-                        $('#download').on('click',  (e) => {
+                        $('#download-graph').on('click',  (e) => {
                             radar.download();
                         });
                     }

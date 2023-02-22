@@ -56,6 +56,19 @@ export class Data {
     }
 
     /**
+     * Downloads the JSON saved in local storage
+     */
+    download() {
+        const data = this.loadFromLocalStorage();
+
+        let blob = new Blob([JSON.stringify(data, null, 2)], {
+            type: 'application/json; charset=utf-8'
+        });
+
+        saveAs(blob, `${this.team()} - ${this.date()}.json`);
+    }
+
+    /**
      * Returns just the sections from the json data
      * @returns {}
      */
@@ -63,6 +76,20 @@ export class Data {
         return this.data.sections;
     }
 
+    /**
+     * Returns a formatted date
+     * @returns {string}
+     */
+    date() {
+        return new Date().toLocaleDateString(
+            'en-GB', { day: 'numeric', month: 'short', year: 'numeric' }
+        );
+    }
+
+    /**
+     * Returns the team nname
+     * @returns {string}
+     */
     team() {
         return this.data.team
     }
