@@ -22,6 +22,10 @@ export class App {
                         $('#download-json').on('click',  (e) => {
                             data.download();
                         });
+
+                        $('#upload-json').on('click',  (e) => {
+                            data.upload();
+                        });
                     }
                 );
 
