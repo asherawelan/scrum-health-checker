@@ -77,13 +77,12 @@ export class Data {
 
             const reader = new FileReader();
             reader.onload = (event) => {
-
                 try {
                     const data = JSON.parse(event.target.result);
                     this.data = this.check(data, schema) ? data : null;
-                    this.saveToLocalStorage(
-                        this.reload
-                    );
+                    this.saveToLocalStorage( () => {
+                        this.reload();
+                    });
 
                 } catch (error) {
                     alert('An error occurred - check the console');
@@ -143,6 +142,7 @@ export class Data {
     /**
      * Updates the checked value in the data using
      * section and question indexes as indices
+     * then fire an event to update the charts
      * @param section
      * @param question
      * @param checked
@@ -153,29 +153,37 @@ export class Data {
             .questions[question]
             .checked = checked;
 
-        this.saveToLocalStorage(
-            this.dispatchDoChartUpdateEvent
-        );
+        this.saveToLocalStorage( () => {
+            this.dispatchDoChartUpdateEvent();
+        });
     }
 
+    /**
+     * Update the completed date, then update the charts
+     */
     updateCompletedDate(value, callback) {
         this.data.completedDate = value;
         this.saveToLocalStorage( () => {
+            if(callback){
+                callback(value);
+            }
             this.dispatchDoChartUpdateEvent()
         });
-
-        if(callback){
-            callback(value);
-        }
     }
 
+    /**
+     * Update the team data, then update the charts
+     */
     updateTeam(value) {
         this.data.team = value;
-        this.saveToLocalStorage(
-            this.dispatchDoChartUpdateEvent
-        );
+        this.saveToLocalStorage( () => {
+            this.dispatchDoChartUpdateEvent()
+        });
     }
 
+    /**
+     * Save to local storage, ready for use again in the future
+     */
     saveToLocalStorage(callback) {
        localStorage.setItem('data', JSON.stringify(this.data));
        if(callback){
