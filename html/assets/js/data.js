@@ -14,7 +14,13 @@ export class Data {
             this.data = this.loadFromLocalStorage();
         } catch (error) {
             this.data = await this.loadJsonFromFile();
-            this.saveToLocalStorage();
+        }
+
+        // Adding a value for the completed date
+        if(!this.completedDate()){
+            this.updateCompletedDate(
+                new Date().toISOString().substring(0, 10)
+            );
         }
 
         callback(this);
@@ -62,7 +68,7 @@ export class Data {
             type: 'application/json; charset=utf-8'
         });
 
-        saveAs(blob, `${this.team()} - ${this.formattedDate(this.data.completedDate())}.json`);
+        saveAs(blob, `${this.team()} - ${this.formattedDate(this.completedDate())}.json`);
     }
 
     /**
