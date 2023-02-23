@@ -15,7 +15,7 @@ export class Radar {
      */
     updateTitle() {
         this.chart.options.plugins.title.text = this.data.team();
-        this.chart.options.plugins.subtitle.text = this.data.completedDate();
+        this.chart.options.plugins.subtitle.text = this.formattedDate(this.data.completedDate());
         this.chart.update();
     }
 
@@ -59,8 +59,8 @@ export class Radar {
      * Returns a formatted date
      * @returns {string}
      */
-    date() {
-        return new Date().toLocaleDateString(
+    formattedDate(value) {
+        return new Date(value).toLocaleDateString(
             'en-GB', { day: 'numeric', month: 'short', year: 'numeric' }
         );
     }
@@ -71,7 +71,7 @@ export class Radar {
     download() {
         const canvas = document.getElementById('radar');
         canvas.toBlob((blob) => {
-            saveAs(blob, `${this.data.team()} - ${this.date()}.png`);
+            saveAs(blob, `${this.data.team()} - ${this.formattedDate(this.data.completedDate())}.png`);
         });
     }
 
@@ -141,7 +141,9 @@ export class Radar {
                         },
                         subtitle: {
                             display: true,
-                            text: this.data.completedDate(),
+                            text: this.formattedDate(
+                                this.data.completedDate()
+                            ),
                             font: {
                                 size: 18,
                             },

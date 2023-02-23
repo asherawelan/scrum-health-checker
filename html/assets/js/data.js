@@ -62,7 +62,7 @@ export class Data {
             type: 'application/json; charset=utf-8'
         });
 
-        saveAs(blob, `${this.team()} - ${this.date()}.json`);
+        saveAs(blob, `${this.team()} - ${this.formattedDate(this.data.completedDate())}.json`);
     }
 
     /**
@@ -107,8 +107,8 @@ export class Data {
      * Returns a formatted date
      * @returns {string}
      */
-    date() {
-        return new Date().toLocaleDateString(
+    formattedDate(value) {
+        return new Date(value).toLocaleDateString(
             'en-GB', { day: 'numeric', month: 'short', year: 'numeric' }
         );
     }
