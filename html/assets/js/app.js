@@ -1,7 +1,6 @@
 import {Data} from "./data.js";
 import {Accordion} from "./accordion.js";
 import {Radar} from "./radar.js";
-import {Pdf} from "./pdf.js";
 
 export class App {
     /**
@@ -31,6 +30,23 @@ export class App {
                         $('#upload-json').on('click', (e) => {
                             data.upload();
                         });
+
+                        $('#datepicker').datepicker({
+                            format: 'yyyy-mm-dd',
+                            autoclose: true
+                        });
+
+                        $('#datepicker').on('changeDate', (e) => {
+                            data.updateCompletedDate(
+                                $(e.currentTarget).datepicker('getFormattedDate'),
+                                (value) => {
+                                    $('#completed-date').val(value);
+                                });
+                        });
+
+                        $('#completed-date').val(
+                            data.completedDate()
+                        );
                     }
                 );
 
@@ -41,12 +57,6 @@ export class App {
                         });
                     }
                 );
-
-                // new Pdf(data).init(
-                //     (pdf) => {
-                //         console.log(123);
-                //     }
-                // );
             });
         } catch (error) {
             console.log(error);

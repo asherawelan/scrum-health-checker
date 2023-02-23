@@ -15,6 +15,7 @@ export class Radar {
      */
     updateTitle() {
         this.chart.options.plugins.title.text = this.data.team();
+        this.chart.options.plugins.subtitle.text = this.data.completedDate();
         this.chart.update();
     }
 
@@ -140,7 +141,7 @@ export class Radar {
                         },
                         subtitle: {
                             display: true,
-                            text: `${this.date()}`,
+                            text: this.data.completedDate(),
                             font: {
                                 size: 18,
                             },

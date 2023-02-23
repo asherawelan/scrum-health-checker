@@ -8,6 +8,9 @@ export const schema = {
         team: {
             type: 'string'
         },
+        completedDate: {
+            type: 'string'
+        },
         sections: {
             type: 'array',
             items: {

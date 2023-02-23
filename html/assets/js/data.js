@@ -77,12 +77,18 @@ export class Data {
 
             const reader = new FileReader();
             reader.onload = (event) => {
-                const data = JSON.parse(event.target.result);
 
-                this.data = this.check(data, schema) ? data : null;
-                this.saveToLocalStorage();
-                this.reload();
+                try {
+                    const data = JSON.parse(event.target.result);
+                    this.data = this.check(data, schema) ? data : null;
+                    this.saveToLocalStorage(
+                        this.reload
+                    );
 
+                } catch (error) {
+                    alert('An error occurred - check the console');
+                    console.log(error);
+                }
             };
             reader.readAsText(file);
         });
@@ -126,6 +132,15 @@ export class Data {
     }
 
     /**
+     * Returns the completed date
+     * name
+     * @returns {string}
+     */
+    completedDate() {
+        return this.data.completedDate
+    }
+
+    /**
      * Updates the checked value in the data using
      * section and question indexes as indices
      * @param section
@@ -137,17 +152,42 @@ export class Data {
             .sections[section]
             .questions[question]
             .checked = checked;
-        this.saveToLocalStorage();
+
+        this.saveToLocalStorage(
+            this.dispatchDoChartUpdateEvent
+        );
     }
 
-    updateTeam(title) {
-        this.data.team = title;
-        this.saveToLocalStorage();
+    updateCompletedDate(value, callback) {
+        this.data.completedDate = value;
+        this.saveToLocalStorage( () => {
+            this.dispatchDoChartUpdateEvent()
+        });
+
+        if(callback){
+            callback(value);
+        }
     }
 
-    saveToLocalStorage() {
-        localStorage.setItem('data', JSON.stringify(this.data));
+    updateTeam(value) {
+        this.data.team = value;
+        this.saveToLocalStorage(
+            this.dispatchDoChartUpdateEvent
+        );
+    }
 
+    saveToLocalStorage(callback) {
+       localStorage.setItem('data', JSON.stringify(this.data));
+       if(callback){
+           callback();
+       }
+    }
+
+    /**
+     * Dispatches an event that charts will
+     * pick up and action
+     */
+    dispatchDoChartUpdateEvent() {
         window.dispatchEvent(
             new Event('doChartUpdates')
         );
