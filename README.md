@@ -3,7 +3,7 @@
 
 The Scrum Health Checker is a user-friendly utility designed to assess and improve Scrum practices. It enables development teams to conduct periodic health checks, evaluating nine key topics such as Sprint Planning, Daily Scrum, Product Backlog, and more.
 
-The team determine if the ten statements per topic are true based on their experiences. The results are visually represented using radar charts, highlighting strengths and areas for improvement. By facilitating self-assessment and fostering continuous learning, this tool empowers teams to thrive in their agile journey.
+The team determines if the ten statements per topic are true based on their team experience. The results are visually represented using radar charts, highlighting strengths and areas for improvement. By facilitating self-assessment and fostering continuous learning, this tool empowers teams to thrive in their agile journey.
 ## Run Locally
 
 Clone the project
