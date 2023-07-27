@@ -1,5 +1,5 @@
 
-# Agile Scrum Health Check
+# Scrum Health Checker
 
 The Scrum Health Checker is a user-friendly utility designed to assess and improve Scrum practices. It enables development teams to conduct periodic health checks, evaluating nine key topics such as Sprint Planning, Daily Scrum, Product Backlog, and more.
 
